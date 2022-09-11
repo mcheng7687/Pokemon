@@ -18,6 +18,9 @@ const DB_URI = (process.env.NODE_ENV === "test")
 
 const SECRET_KEY = process.env.SECRET_KEY || "blastoise";
 
+// Port for backend app to deploy
+const PORT = process.env.PORT || 3001;
+
 module.exports = { 
   API_URL,
   API_SPECIES_URL,
@@ -26,5 +29,6 @@ module.exports = {
   reqHungerToEvolve,
   BCRYPT_WORK_FACTOR,
   DB_URI,
-  SECRET_KEY
+  SECRET_KEY,
+  PORT,
 };
