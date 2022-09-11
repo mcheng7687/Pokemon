@@ -13,7 +13,7 @@ const app = express();
 // allow connections to all routes from any browser
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded());
+// app.use(express.urlencoded());
 app.use(authenticateJWT);
 
 app.use("/pokemon",pokeRoutes);
