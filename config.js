@@ -12,7 +12,7 @@ const reqHungerToEvolve = 20;
 
 const BCRYPT_WORK_FACTOR = 12;
 
-const DB_URI = (process.env.NODE_ENV === "test")
+const DB_URI = process.env.DATABASE_URL || (process.env.NODE_ENV === "test")
   ? "postgresql:///pokemon_test"
   : "postgresql:///pokemon";
 
