@@ -39,11 +39,11 @@ router.post("/register", async function (req, res, next) {
  **/
 
 router.post("/login", async function (req, res, next) {
-  try { 
+  try {
     const trainer = await Trainer.authenticate(req.body);
 
     trainer.token = createToken(trainer);
-    
+
     return res.status(201).json(trainer);
   } catch (err) {
     return next(err);
@@ -101,23 +101,23 @@ router.post("/myPokemon/add", ensureCorrectUserOrAdmin, async function (req, res
  * Authorization required: login or admin
  **/
 
- router.post("/myPokemon/feed", ensureCorrectUserOrAdmin, async function (req, res, next) {
+router.post("/myPokemon/feed", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
-    const result = await Pokemon.feed(req.query.myPokemonId);
+    const result = await Pokemon.feed(req.query.id, req.query.myPokemonId);
     return res.json(result);
   } catch (err) {
     return next(err);
   }
 });
 
-/** POST /myPokemon/release?[id][pokemonId]  =>  {  }
+/** POST /myPokemon/release?[id][myPokemonId]  =>  {  }
  *
  * Authorization required: login or admin
  **/
 
 router.post("/myPokemon/release", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
-    const result = await Trainer.removePokemon(req.query.myPokemonId);
+    const result = await Trainer.removeMyPokemon(req.query.id, req.query.myPokemonId);
     return res.json(result);
   } catch (err) {
     return next(err);

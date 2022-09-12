@@ -2,6 +2,7 @@
 
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const { authenticateJWT } = require("./middleware/auth");
 
@@ -15,6 +16,9 @@ app.use(cors());
 app.use(express.json());
 // app.use(express.urlencoded());
 app.use(authenticateJWT);
+
+//React app static files
+app.use(express.static(path.join(__dirname + "/public")))
 
 app.use("/pokemon",pokeRoutes);
 app.use("/trainer",trainerRoutes);

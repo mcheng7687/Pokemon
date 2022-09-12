@@ -15,6 +15,16 @@ const { BCRYPT_WORK_FACTOR } = require("../config");
 
 class Trainer {
 
+  static async checkTrainerId(trainerId) {
+    const result = await db.query(`
+      SELECT email
+      FROM trainer
+      WHERE id = $1
+    `, [trainerId]);
+
+    return result.rows.length > 0;
+  }
+
   /** Register new user -- returns {id, firstName, lastName, email, isAdmin} */
   static async register({ firstName, lastName, email, password }) {
 
@@ -85,6 +95,10 @@ class Trainer {
       [id]
     );
 
+    if (result.rows.length === 0) {
+      throw new NotFoundError(`No id found.`);
+    }
+
     return result.rows[0];
   }
 
@@ -99,6 +113,10 @@ class Trainer {
       [id, firstName, lastName, email]
     );
 
+    if (result.rows.length === 0) {
+      throw new NotFoundError(`No trainer id found.`);
+    }
+
     return result.rows[0];
   }
 
@@ -111,6 +129,10 @@ class Trainer {
       RETURNING email`,
       [id]
     );
+
+    if (result.rows.length === 0) {
+      throw new NotFoundError(`No trainer id found.`);
+    }
 
     return { message: `${result.rows[0].email} removed` };
   }
@@ -137,21 +159,30 @@ class Trainer {
   /** Add Pokemon: add pokemon to trainer's pokemon list */
 
   static async addNewPokemon(trainerId, pokemonId) {
-    if (!Pokemon.checkPokemonId(pokemonId)) {
+    if (!await Pokemon.checkPokemonId(pokemonId)) {
       throw new NotFoundError(`This pokemon ID does not exist.`);
     }
 
-    await db.query(`
+    if (!await this.checkTrainerId(trainerId)) {
+      throw new NotFoundError(`No trainer id found.`);
+    }
+
+    const pokemon = await db.query(`
       INSERT INTO trainer_pokemon (trainer_id, pokemon_id)
       VALUES ($1, $2)
-    `,[trainerId, pokemonId]);
+      RETURNING id
+    `, [trainerId, pokemonId]);
 
-    return { message: `Added new pokemon to trainer ${trainerId}.` };
+    return pokemon.rows[0];
   }
 
   /** Get All Pokemon: get trainer's pokemon list */
 
   static async getMyPokemon(trainerId) {
+    if (!await this.checkTrainerId(trainerId)) {
+      throw new NotFoundError(`No trainer id found.`);
+    }
+
     const pokemonList = await db.query(`
       SELECT trainer_pokemon.id AS "trainerPokemonId", name, image_url, trainer_pokemon.pokemon_id AS "id", hunger, ARRAY_AGG(pokemon_type.type) as type, ARRAY_AGG(color) as color
       FROM trainer_pokemon
@@ -168,20 +199,20 @@ class Trainer {
 
   /** Remove Pokemon: remove pokemon from trainer's pokemon list */
 
-  static async removePokemon(myPokemonId) {
+  static async removeMyPokemon(id, myPokemonId) {
 
     const removed = await db.query(`
         DELETE FROM trainer_pokemon 
-        WHERE id = $1
-        RETURNING trainer_id AS "trainerId", pokemon_id AS "pokemonId"`,
-      [myPokemonId]
+        WHERE id = $1 AND trainer_id = $2
+        RETURNING id, trainer_id AS "trainerId", pokemon_id AS "pokemonId"`,
+      [myPokemonId, id]
     );
 
     if (removed.rows.length === 0) {
       throw new NotFoundError(`You have no such pokemon.`);
     }
 
-    return { message: `Removed pokemon id ${removed.rows[0].pokemonId} from trainer ${removed.rows[0].trainerId}.` };
+    return removed.rows[0];
   }
 }
 

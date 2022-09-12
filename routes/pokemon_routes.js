@@ -38,13 +38,13 @@ router.get("/get", async function (req, res, next) {
 });
 
 
-/** POST /add - Add a new  pokemon with id from query string.
+/** POST /add - Add a new pokemon with id from query string.
  * 
  *  => [ {id, name, image_url, next_id, type : [...]}]
  * 
  * 
  */
-router.post("/add", async function (req, res, next) {
+router.post("/add", ensureLoggedIn, async function (req, res, next) {
   try {
     const id = req.query.id, name = req.query.name;
 

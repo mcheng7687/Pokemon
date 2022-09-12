@@ -3,8 +3,8 @@
 const db = require("../db.js");
 const { NotFoundError } = require("../expressError");
 const Pokemon = require("./pokemon");
-const { POKEMON_LIMIT } = require("../config");
-const {commonBeforeAll, commonAfterAll, commonBeforeEach, commonAfterEach} = require("./_testCommon");
+const { POKEMON_LIMIT, reqHungerToEvolve } = require("../config");
+const { commonBeforeAll, commonAfterAll, commonBeforeEach, commonAfterEach } = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -94,21 +94,38 @@ describe("feed Pokemon", function () {
     const id = await db.query(`
       SELECT id
       FROM trainer_pokemon
-      LIMIT 1
+      ORDER BY id
       `);
 
-    let pokemon = await Pokemon.feed(id.rows[0].id)
+    let pokemon = await Pokemon.feed(1, id.rows[0].id)
 
     expect(pokemon.hunger).toEqual(1);
 
-    pokemon = await Pokemon.feed(id.rows[0].id)
+    pokemon = await Pokemon.feed(1, id.rows[0].id)
 
     expect(pokemon.hunger).toEqual(2);
   });
 
+  test("works: evolve", async function () {
+    const id = await db.query(`
+      SELECT id
+      FROM trainer_pokemon
+      ORDER BY id
+      `);
+
+    let pokemon;
+
+    for (let i = 1; i <= reqHungerToEvolve; i++) {
+      pokemon = await Pokemon.feed(2, id.rows[1].id)
+    }
+
+    expect(pokemon.hunger).toEqual(0);
+    expect(pokemon.pokemonId).toEqual(5);
+  });
+
   test("not found to feed", async function () {
     try {
-      await Pokemon.feed(0);
+      await Pokemon.feed(1, 0);
     } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
     }

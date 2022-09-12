@@ -79,12 +79,12 @@ class Pokemon {
   /**
   * 
   */
-  static async feed(myPokemonId) {
+  static async feed(id, myPokemonId) {
     const currentPoke = await db.query(`
       SELECT pokemon_id AS "pokemonId", hunger
       FROM trainer_pokemon
-      WHERE id = $1
-    `, [myPokemonId]);
+      WHERE id = $1 AND trainer_id=$2
+    `, [myPokemonId, id]);
 
     if (currentPoke.rows.length === 0) {
       throw new NotFoundError(`There is no such pokemon.`);
