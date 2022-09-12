@@ -109,7 +109,7 @@ class Pokemon {
       UPDATE trainer_pokemon
       SET hunger = $2, pokemon_id = $3
       WHERE id = $1
-      RETURNING id, pokemon_id AS "pokemonId", hunger
+      RETURNING id AS "myPokemonId", pokemon_id AS "pokemonId", hunger
     `, [myPokemonId, hunger, pokemonId]);
 
     return updatedHunger.rows[0];

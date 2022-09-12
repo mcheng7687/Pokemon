@@ -247,7 +247,7 @@ describe("POST /trainer/myPokemon/add?[id][pokemonId]", function () {
 
     expect(resp.statusCode).toEqual(200);
     expect(resp.body).toEqual({
-      id: expect.any(Number),
+      myPokemonId: expect.any(Number),
     });
   });
 
@@ -285,7 +285,7 @@ describe("POST /trainer/myPokemon/feed?[id][myPokemonId]", function () {
 
     expect(resp.statusCode).toEqual(200);
     expect(resp.body).toEqual({
-      id: expect.any(Number),
+      myPokemonId: expect.any(Number),
       pokemonId: p2.pokemonId,
       hunger: expect.any(Number),
     });
@@ -305,7 +305,7 @@ describe("POST /trainer/myPokemon/feed?[id][myPokemonId]", function () {
 
     expect(resp.statusCode).toEqual(200);
     expect(resp.body).toEqual({
-      id: expect.any(Number),
+      myPokemonId: expect.any(Number),
       pokemonId: p2.pokemonId + 1,
       hunger: expect.any(Number),
     });
@@ -347,7 +347,7 @@ describe("POST /trainer/myPokemon/release?[id][myPokemonId]", function () {
 
     expect(resp.statusCode).toEqual(200);
     expect(resp.body).toEqual({
-      id: expect.any(Number),
+      myPokemonId: expect.any(Number),
       pokemonId: p2.pokemonId,
       trainerId: t2.id,
     });

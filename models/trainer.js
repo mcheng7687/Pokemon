@@ -170,7 +170,7 @@ class Trainer {
     const pokemon = await db.query(`
       INSERT INTO trainer_pokemon (trainer_id, pokemon_id)
       VALUES ($1, $2)
-      RETURNING id
+      RETURNING id AS "myPokemonId"
     `, [trainerId, pokemonId]);
 
     return pokemon.rows[0];
@@ -204,7 +204,7 @@ class Trainer {
     const removed = await db.query(`
         DELETE FROM trainer_pokemon 
         WHERE id = $1 AND trainer_id = $2
-        RETURNING id, trainer_id AS "trainerId", pokemon_id AS "pokemonId"`,
+        RETURNING id AS "myPokemonId", trainer_id AS "trainerId", pokemon_id AS "pokemonId"`,
       [myPokemonId, id]
     );
 

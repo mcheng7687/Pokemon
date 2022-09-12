@@ -13,7 +13,7 @@ const { POKEMON_LIMIT, API_LIMIT } = require("../config");
 /** GET /get - Get list of pokemon with either id or name from query.
  * If neither is specified in query, provide list of all Pokemon.
  * 
- *  => [ {id, name, image_url, next_id, type : [...]}, ...]
+ *  => [ {id, name, image_url, prev_id, species, type : [...], color: [...]}, ...]
  * 
  * Priority of using query "id". 
  * 
@@ -61,10 +61,10 @@ router.post("/add", ensureLoggedIn, async function (req, res, next) {
 });
 
 
-/** GET /reset - Reset database to original tables.
+/** POST /reset - Reset database to original tables.
  * 
  */
-router.get("/reset", ensureAdmin, async function (req, res, next) {
+router.post("/reset", ensureAdmin, async function (req, res, next) {
   try {
     Pokemon.clearDatabase();
 

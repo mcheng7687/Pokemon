@@ -131,25 +131,25 @@ describe("add pokemon to trainer", function () {
     await Trainer.addNewPokemon(2, 1);
 
     const trainersPokemon = await db.query(`
-      SELECT id, trainer_id AS "trainerId", pokemon_id AS "pokemonId"
+      SELECT id AS "myPokemonId", trainer_id AS "trainerId", pokemon_id AS "pokemonId"
       FROM trainer_pokemon
-      ORDER BY id
+      ORDER BY id 
     `);
 
     expect(trainersPokemon.rows).toEqual([{
-      id: 1,
+      myPokemonId: 1,
       trainerId: 1,
       pokemonId: 1,
     }, {
-      id: 2,
+      myPokemonId: 2,
       trainerId: 2,
       pokemonId: 4,
     }, {
-      id: 3,
+      myPokemonId: 3,
       trainerId: 3,
       pokemonId: 7,
     }, {
-      id: expect.any(Number),
+      myPokemonId: expect.any(Number),
       trainerId: 2,
       pokemonId: 1,
     }]);
@@ -207,7 +207,7 @@ describe("remove pokemon of trainer", function () {
     await Trainer.removeMyPokemon(2, 2);
 
     const pokemon = await db.query(`
-      SELECT id, trainer_id AS "trainerId", pokemon_id AS "pokemonId"
+      SELECT id AS "myPokemonId", trainer_id AS "trainerId", pokemon_id AS "pokemonId"
       FROM trainer_pokemon
       WHERE id=2
     `);

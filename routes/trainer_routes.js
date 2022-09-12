@@ -10,7 +10,7 @@ const Pokemon = require("../models/pokemon");
 
 const router = express.Router();
 
-/** POST /register { email, firstName, lastName, password } => { trainer: { id, firstName, lastName, email, token } }
+/** POST /register { email, firstName, lastName, password } => { trainer: { id, firstName, lastName, email, token, isAdmin } }
  * 
  * Adds a new trainer. This returns the newly created trainer and an authentication token for them:
  *  {trainer, token }
@@ -30,7 +30,7 @@ router.post("/register", async function (req, res, next) {
   }
 });
 
-/** POST /login { email, password } => { trainer: { id, firstName, lastName, email, token } }
+/** POST /login { email, password } => { trainer: { id, firstName, lastName, email, token, password(hashed), isAdmin } }
  * 
  * Login existing trainer. This returns the existing trainer and an authentication token for them:
  *  {trainer, token }
@@ -52,7 +52,7 @@ router.post("/login", async function (req, res, next) {
 
 /** GET /?[id] => { trainer }
  *
- * Returns { email, firstName, lastName, isAdmin }
+ * Returns { id, email, firstName, lastName, isAdmin }
  *
  * Authorization required: login or admin
  **/
@@ -82,7 +82,7 @@ router.get("/myPokemon", ensureCorrectUserOrAdmin, async function (req, res, nex
   }
 });
 
-/** POST /myPokemon/add?[id][pokemonId]  =>  {  }
+/** POST /myPokemon/add?[id][pokemonId]  =>  { myPokemonId }
  *
  * Authorization required: login or admin
  **/

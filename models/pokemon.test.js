@@ -91,24 +91,24 @@ describe("all", function () {
 
 describe("feed Pokemon", function () {
   test("works: feed", async function () {
-    const id = await db.query(`
-      SELECT id
+    const myPokemon = await db.query(`
+      SELECT id AS "myPokemonId"
       FROM trainer_pokemon
       ORDER BY id
       `);
 
-    let pokemon = await Pokemon.feed(1, id.rows[0].id)
+    let pokemon = await Pokemon.feed(1, myPokemon.rows[0].myPokemonId)
 
     expect(pokemon.hunger).toEqual(1);
 
-    pokemon = await Pokemon.feed(1, id.rows[0].id)
+    pokemon = await Pokemon.feed(1, myPokemon.rows[0].myPokemonId)
 
     expect(pokemon.hunger).toEqual(2);
   });
 
   test("works: evolve", async function () {
-    const id = await db.query(`
-      SELECT id
+    const myPokemon = await db.query(`
+      SELECT id AS "myPokemonId"
       FROM trainer_pokemon
       ORDER BY id
       `);
@@ -116,7 +116,7 @@ describe("feed Pokemon", function () {
     let pokemon;
 
     for (let i = 1; i <= reqHungerToEvolve; i++) {
-      pokemon = await Pokemon.feed(2, id.rows[1].id)
+      pokemon = await Pokemon.feed(2, myPokemon.rows[1].myPokemonId)
     }
 
     expect(pokemon.hunger).toEqual(0);
