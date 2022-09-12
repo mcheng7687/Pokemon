@@ -626,22 +626,6 @@ COPY public.pokemon_type (pokemon_id, type) FROM stdin;
 --
 
 COPY public.trainer (id, email, first_name, last_name, password, isadmin) FROM stdin;
-3	mc1@gmail.com	M	C	$2b$12$7CvvrYI.kflGLJhQyXk9SOKUxsgLpoesgPV6UprhJM6L3btMbv2Bq	f
-4	mc2@gmail.com	M	C	$2b$12$uORG74pWot.AU3qNl.Y7neYb3x52dKQuOqp825mALaK9qoOzVvTKW	f
-5	mc3@gmail.com	M	C	$2b$12$9EyH1FwddBzz.88BdCwhTeXM2lxtMrvIMsL94YhIQFYIkC4LlJiD2	f
-6	mc4@gmail.com	M	C	$2b$12$Lyigcg1B4rJOryldWJ7s8el6WAboA8xJ5TQc.aCR61LGCbVlgTFbu	f
-7	mc5@gmail.com	M	C	$2b$12$sXcC/uRRV1bJ1fW2HmnOsukdJlzyV3fCR2c7GiA2Qikc7.gfyrv76	f
-8	mc6@gmail.com	M	C	$2b$12$7LiaT3O5PLWo7ZUNedSV4uDmQ.X48/cYL/a94AniRiAg5a09Rk8lW	f
-9	mc7@gmail.com	M	C	$2b$12$sn4WRESLZGP2Xo/BqLxsdeiPqMYpdUYLa/VNsK/ZTVfX.I634zSaW	f
-10	mc8@gmail.com	M	C	$2b$12$1EGeQ2BdrrpsF6KKBDbfIO2w210UdC2QGVeA5ie453OegjV6lIxD.	f
-11	mc9@gmail.com	M	C	$2b$12$O3yxnQJ.VDkT7hk.hXNFEujpNao69uQe48ILXxlQS.pDLQ9xADLB.	f
-12	mc10@gmail.com	M	C	$2b$12$AbajeUTDulVn8IvS7K4rt./f6HdVh33S0EUd06TFS4n5NXeS2ieaa	f
-13	mc11@gmail.com	M	C	$2b$12$NG76Up89I4z4V45VzhIz1OVUNZhMQEFsgimTrJQ94aUErMuouUPCy	f
-14	mc12@gmail.com	M	C	$2b$12$v51DJA98BlCSYBWjOBVC1OYhvDdgQLTN11cV/1xOXUQfXxO4tXQtm	f
-15	mc13@gmail.com	M	C	$2b$12$7MLyzRAcJ72IjAi4hOMA7eVNBpAye9hNhBIqDVo0G9lQNsDMUyQDe	f
-16	mm@gmail.com	Melvin	Cheng	$2b$12$hKdaPdmWxauKlIwqSadUG.Sxx/5TBDKhdG8478hYQRkTn1W/mpheK	f
-17	mm1@gmail.com	Melvin	Cheng	$2b$12$TUb63.H3s5aLYQY6o5HWW.27KBNFphmjc.DX9UrHEyS1btchyeueC	f
-24	mcheng7687@gmail.com	Melv	Chen	$2b$12$r9bsgE0aQWrCDXLfU4VznuwrplHFrIuqAl6kvQbGcm7zv.AzI8xV2	f
 \.
 
 
@@ -650,17 +634,6 @@ COPY public.trainer (id, email, first_name, last_name, password, isadmin) FROM s
 --
 
 COPY public.trainer_pokemon (id, trainer_id, pokemon_id, hunger) FROM stdin;
-16	24	128	0
-17	24	84	0
-7	24	95	0
-10	24	137	0
-12	24	112	0
-18	24	148	0
-6	24	150	22
-2	24	9	3
-4	24	6	1
-1	3	3	0
-5	24	12	0
 \.
 
 
@@ -695,14 +668,14 @@ shadow	purple
 -- Name: trainer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Melvin
 --
 
-SELECT pg_catalog.setval('public.trainer_id_seq', 24, true);
+SELECT pg_catalog.setval('public.trainer_id_seq', 1, true);
 
 
 --
 -- Name: trainer_pokemon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Melvin
 --
 
-SELECT pg_catalog.setval('public.trainer_pokemon_id_seq', 18, true);
+SELECT pg_catalog.setval('public.trainer_pokemon_id_seq', 1, true);
 
 
 --
